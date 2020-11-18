@@ -65,6 +65,62 @@ class NGValue<T> {
   }
 }
 
+// name?
+//
+// NGIndirectValue
+// NGDependentValue
+// NGComputedValue
+
+abstract class NGDependentValueBase<T> extends NGValue<T> {
+  List<StreamSubscription> _subscriptions = [];
+
+  NGDependentValueBase(T val, List<NGValue> dependencies) : super(val) {
+    dependencies.forEach((dependency) {
+      _subscriptions.add(dependency.stream.listen((_) => updateValue()));
+    });
+  }
+
+  void updateValue();
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    _subscriptions?.forEach((subscription) {
+      subscription.cancel();
+    });
+  }
+}
+
+typedef T NGDependencyMapper1<T, V1>(V1 val1);
+
+class NGDependentValue<T, V1> extends NGDependentValueBase<T> {
+  NGValue<V1> _dependency1;
+  NGDependencyMapper1 _mapper;
+
+  NGDependentValue(this._dependency1, this._mapper)
+      : super(_mapper(_dependency1.value), [_dependency1]);
+
+  @override
+  void updateValue() => value = _mapper(_dependency1.value);
+}
+
+typedef T NGDependencyMapper2<T, V1, V2>(V1 val1, V2 val2);
+
+class NGDependentValue2<T, V1, V2> extends NGDependentValueBase<T> {
+  NGValue<V1> _dependency1;
+  NGValue<V2> _dependency2;
+  NGDependencyMapper2 _mapper;
+
+  NGDependentValue2(this._dependency1, this._dependency2, this._mapper)
+      : super(_mapper(_dependency1.value, _dependency2.value), [_dependency1, _dependency2]);
+
+  @override
+  void updateValue() => value = _mapper(_dependency1.value, _dependency2.value);
+}
+
+// *****
+
 abstract class NGValueBase<T> {
   T _value;
 
@@ -84,7 +140,7 @@ abstract class NGValueBase<T> {
   }
 }
 
-class NGSimpleValue<T, T1> extends NGValueBase<T> {
+class NGSimpleValue<T> extends NGValueBase<T> {
   NGSimpleValue(T initValue) {
     value = initValue;
   }
