@@ -71,7 +71,8 @@ void main() {
 
   test('NGList + NGDependentValue', () async {
     final ngList = NGList([1, 2]);
-    final label = NGDependentValue(ngList, (List<int> list) => "Sum: ${list.fold(0, (prev, elem) => prev + elem)}");
+    final label = NGDependentValue(
+        ngList, (List<int> list) => "Sum: ${list.fold(0, (prev, elem) => prev + elem)}");
     expect(label.value, "Sum: 3");
 
     ngList.add(3);

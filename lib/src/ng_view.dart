@@ -1,6 +1,6 @@
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/widgets.dart';
-import 'package:ng/ng_view_controller.dart';
+import 'package:ng/src/ng_view_controller.dart';
 
 abstract class NGView<C extends NGViewController> extends StatefulWidget {
   final C controller;

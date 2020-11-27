@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:ng/ng_value.dart';
+import 'package:ng/src/ng_value.dart';
 
 class NG<T> extends StatelessWidget {
   final NGValue<T> ngValue;
