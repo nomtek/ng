@@ -50,4 +50,38 @@ void main() {
 
     expect(label.value, "Name: Dan Current Index: 3 but second 0");
   });
+
+  test('NGList basic', () async {
+    final ngList = NGList([1]);
+
+    expect(ngList[0], 1);
+
+    ngList.add(2);
+    await Future.delayed(Duration.zero);
+
+    expect(ngList.length, 2);
+    expect(ngList[1], 2);
+
+    ngList.removeWhere((e) => e % 2 == 0);
+    await Future.delayed(Duration.zero);
+
+    expect(ngList.length, 1);
+    expect(ngList[0], 1);
+  });
+
+  test('NGList + NGDependentValue', () async {
+    final ngList = NGList([1, 2]);
+    final label = NGDependentValue(ngList, (List<int> list) => "Sum: ${list.fold(0, (prev, elem) => prev + elem)}");
+    expect(label.value, "Sum: 3");
+
+    ngList.add(3);
+    await Future.delayed(Duration.zero);
+
+    expect(label.value, "Sum: 6");
+
+    ngList.removeWhere((e) => e % 2 == 0);
+    await Future.delayed(Duration.zero);
+
+    expect(label.value, "Sum: 4");
+  });
 }
