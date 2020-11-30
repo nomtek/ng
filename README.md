@@ -1,6 +1,6 @@
 # ng
 
-![](https://github.com/hnvn/flutter_shimmer/workflows/unit%20test/badge.svg)
+![](https://github.com/nomtek/ng/workflows/unit%20test/badge.svg)
 
 Micro framework for state management
 
