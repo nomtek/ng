@@ -352,3 +352,104 @@ class NGList<T> extends NGValue<List<T>> implements List<T> {
   @override
   Iterable<T> where(bool Function(T element) test) => super.value.where(test);
 }
+
+class NGMap<K, V> extends NGValue<Map<K, V>> implements Map<K, V> {
+  NGMap(Map<K, V> value) : super(value);
+
+  @override
+  V operator [](Object key) {
+    return value[key];
+  }
+
+  @override
+  void operator []=(K key, V value) {
+    super.value[key] = value;
+    super._valueStreamController.sink.add(super.value);
+  }
+
+  @override
+  void addAll(Map<K, V> other) {
+    super.value.addAll(other);
+    super._valueStreamController.sink.add(super.value);
+  }
+
+  @override
+  void addEntries(Iterable<MapEntry<K, V>> newEntries) {
+    super.value.addEntries(newEntries);
+    super._valueStreamController.sink.add(super.value);
+  }
+
+  @override
+  Map<RK, RV> cast<RK, RV>() => super.value.cast();
+
+  @override
+  void clear() {
+    super.value.clear();
+    super._valueStreamController.sink.add(super.value);
+  }
+
+  @override
+  bool containsKey(Object key) => value.containsKey(key);
+
+  @override
+  bool containsValue(Object value) => super.value.containsValue(value);
+
+  @override
+  Iterable<MapEntry<K, V>> get entries => super.value.entries;
+
+  @override
+  void forEach(void Function(K key, V value) f) => super.value.forEach(f);
+
+  @override
+  bool get isEmpty => super.value.isEmpty;
+
+  @override
+  bool get isNotEmpty => super.value.isNotEmpty;
+
+  @override
+  Iterable<K> get keys => super.value.keys;
+
+  @override
+  int get length => super.value.length;
+
+  @override
+  Map<K2, V2> map<K2, V2>(MapEntry<K2, V2> Function(K key, V value) f) => super.value.map(f);
+
+  @override
+  V putIfAbsent(K key, V Function() ifAbsent) {
+    final contains = containsKey(key);
+    final result = super.value.putIfAbsent(key, ifAbsent);
+    if (!contains) super._valueStreamController.sink.add(super.value);
+    return result;
+  }
+
+  @override
+  V remove(Object key) {
+    final result = super.value.remove(value);
+    if (result != null) super._valueStreamController.sink.add(super.value);
+    return result;
+  }
+
+  @override
+  void removeWhere(bool Function(K key, V value) predicate) {
+    final oldLength = super.value.length;
+    super.value.removeWhere(predicate);
+    if (oldLength != super.value.length) super._valueStreamController.sink.add(super.value);
+  }
+
+  @override
+  V update(K key, V Function(V value) update, {V Function() ifAbsent}) {
+    final result = super.value.update(key, update, ifAbsent: ifAbsent);
+    super._valueStreamController.sink.add(super.value);
+    return result;
+  }
+
+  @override
+  void updateAll(V Function(K key, V value) update) {
+    super.value.updateAll(update);
+    super._valueStreamController.sink.add(super.value);
+  }
+
+  @override
+  Iterable<V> get values => super.value.values;
+}
