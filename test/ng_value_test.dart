@@ -85,4 +85,40 @@ void main() {
 
     expect(label.value, "Sum: 4");
   });
+
+  test('NGMap basic', () async {
+    final ngMap = NGMap({"1": 2});
+
+    expect(ngMap["1"], 2);
+
+    ngMap["3"] = 20;
+    await Future.delayed(Duration.zero);
+
+    expect(ngMap.length, 2);
+    expect(ngMap["3"], 20);
+
+    ngMap.removeWhere((key, value) => key == "3");
+    await Future.delayed(Duration.zero);
+
+    expect(ngMap.length, 1);
+    expect(ngMap["1"], 2);
+    expect(ngMap["3"], null);
+  });
+
+  test('NGMap + NGDependentValue', () async {
+    final ngMap = NGMap({"name": "Bob", "surname": "Fox"});
+    final label = NGDependentValue(
+        ngMap, (Map<String, String> map) => "My name is ${map["name"]} ${map["surname"]}");
+    expect(label.value, "My name is Bob Fox");
+
+    ngMap["surname"] = "Chicken";
+    await Future.delayed(Duration.zero);
+
+    expect(label.value, "My name is Bob Chicken");
+
+    ngMap.removeWhere((key, value) => key == "surname");
+    await Future.delayed(Duration.zero);
+
+    expect(label.value, "My name is Bob null");
+  });
 }
