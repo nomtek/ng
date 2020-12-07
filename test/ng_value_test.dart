@@ -86,6 +86,16 @@ void main() {
     expect(label.value, "Sum: 4");
   });
 
+  test('NGList retain where', () async {
+    final ngList = NGList([1, 2]);
+
+    ngList.retainWhere((e) => e % 2 == 0);
+    await Future.delayed(Duration.zero);
+
+    expect(ngList.length, 1);
+    expect(ngList[0], 2);
+  });
+
   test('NGMap basic', () async {
     final ngMap = NGMap({"1": 2});
 
@@ -120,5 +130,45 @@ void main() {
     await Future.delayed(Duration.zero);
 
     expect(label.value, "My name is Bob null");
+  });
+
+  test('NGSet basic', () async {
+    final ngSet = NGSet({1});
+
+    expect(ngSet.first, 1);
+
+    ngSet.add(2);
+    await Future.delayed(Duration.zero);
+
+    expect(ngSet.length, 2);
+    expect(ngSet.last, 2);
+
+    ngSet.removeWhere((e) => e % 2 == 0);
+    await Future.delayed(Duration.zero);
+
+    expect(ngSet.length, 1);
+    expect(ngSet.first, 1);
+  });
+
+  test('NGSet + NGDependentValue', () async {
+    final ngSet = NGSet({1, 2});
+    final label = NGDependentValue(
+        ngSet, (Set<int> set) => "Sum: ${set.fold(0, (prev, elem) => prev + elem)}");
+    expect(label.value, "Sum: 3");
+
+    ngSet.add(3);
+    await Future.delayed(Duration.zero);
+
+    expect(label.value, "Sum: 6");
+
+    ngSet.add(3);
+    await Future.delayed(Duration.zero);
+
+    expect(label.value, "Sum: 6");
+
+    ngSet.removeWhere((e) => e % 2 == 0);
+    await Future.delayed(Duration.zero);
+
+    expect(label.value, "Sum: 4");
   });
 }
