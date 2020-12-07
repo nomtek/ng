@@ -5,3 +5,5 @@
 ## [0.0.2]
 
 * add NGMap
+* add NGSet
+* fix `retainWhere` from `NGList`
