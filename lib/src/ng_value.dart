@@ -11,7 +11,7 @@ class NGValue<T> {
     _value = newValue;
     _valueStreamController.sink.add(newValue);
   }
-
+  
   final StreamController<T> _valueStreamController = StreamController<T>.broadcast();
 
   Stream<T> get stream => _valueStreamController.stream;
