@@ -91,6 +91,45 @@ class NGDependentValue3<T, V1, V2, V3> extends NGDependentValueBase<T> {
   void updateValue() => value = _mapper(_dependency1.value, _dependency2.value, _dependency3.value);
 }
 
+// TOOD: add 4 & 5
+
+class NGDependentValue6<T, V1, V2, V3, V4, V5, V6> extends NGDependentValueBase<T> {
+  NGValue<V1> _dependency1;
+  NGValue<V2> _dependency2;
+  NGValue<V3> _dependency3;
+  NGValue<V4> _dependency4;
+  NGValue<V5> _dependency5;
+  NGValue<V6> _dependency6;
+
+  NGDependencyMapper6<T, V1, V2, V3, V4, V5, V6> _mapper;
+
+  NGDependentValue6(this._dependency1, this._dependency2, this._dependency3, this._dependency4,
+      this._dependency5, this._dependency6, this._mapper)
+      : super(
+            _mapper(
+              _dependency1.value,
+              _dependency2.value,
+              _dependency3.value,
+              _dependency4.value,
+              _dependency5.value,
+              _dependency6.value,
+            ),
+            [_dependency1, _dependency2, _dependency3, _dependency4, _dependency5, _dependency6]);
+
+  @override
+  void updateValue() => value = _mapper(
+        _dependency1.value,
+        _dependency2.value,
+        _dependency3.value,
+        _dependency4.value,
+        _dependency5.value,
+        _dependency6.value,
+      );
+}
+
+typedef T NGDependencyMapper6<T, V1, V2, V3, V4, V5, V6>(
+    V1 val1, V2 val2, V3 val3, V4 val4, V5 val5, V6 val6);
+
 /// NGList
 ///
 ///
