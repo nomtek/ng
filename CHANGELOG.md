@@ -1,3 +1,9 @@
+## [1.0.0]
+
+* improved example
+* fixed CI
+* fixed static analysis errors
+
 ## [0.0.3]
 
 * improved readme
