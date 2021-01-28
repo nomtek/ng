@@ -16,7 +16,8 @@ abstract class NGView<C extends NGViewController> extends StatefulWidget {
 class _NGViewState<C extends NGViewController> extends State<NGView<C>> {
   @override
   void initState() {
-    SchedulerBinding.instance?.addPostFrameCallback((_) => widget.controller?.onReady());
+    SchedulerBinding.instance
+        ?.addPostFrameCallback((_) => widget.controller?.onReady());
     super.initState();
   }
 

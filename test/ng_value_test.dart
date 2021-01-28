@@ -17,8 +17,8 @@ void main() {
   test('listen for two values', () async {
     final index = NGValue(4);
     final index2 = NGValue(100);
-    final label = NGDependentValue2(
-        index, index2, (index, index2) => "Current Index: $index but second $index2");
+    final label = NGDependentValue2(index, index2,
+        (index, index2) => "Current Index: $index but second $index2");
 
     expect(label.value, "Current Index: 4 but second 100");
     index.value = 3;
@@ -38,8 +38,12 @@ void main() {
     final index = NGValue(4);
     final index2 = NGValue(100);
     final name = NGValue('Peter');
-    final label = NGDependentValue3(index, index2, name,
-        (index, index2, name) => "Name: $name Current Index: $index but second $index2");
+    final label = NGDependentValue3(
+        index,
+        index2,
+        name,
+        (index, index2, name) =>
+            "Name: $name Current Index: $index but second $index2");
 
     expect(label.value, "Name: Peter Current Index: 4 but second 100");
 
@@ -72,7 +76,9 @@ void main() {
   test('NGList + NGDependentValue', () async {
     final ngList = NGList([1, 2]);
     final label = NGDependentValue(
-        ngList, (List<int> list) => "Sum: ${list.fold(0, (prev, elem) => prev + elem)}");
+        ngList,
+        (List<int> list) =>
+            "Sum: ${list.fold(0, (prev, elem) => prev + elem)}");
     expect(label.value, "Sum: 3");
 
     ngList.add(3);
@@ -118,7 +124,9 @@ void main() {
   test('NGMap + NGDependentValue', () async {
     final ngMap = NGMap({"name": "Bob", "surname": "Fox"});
     final label = NGDependentValue(
-        ngMap, (Map<String, String> map) => "My name is ${map["name"]} ${map["surname"]}");
+        ngMap,
+        (Map<String, String> map) =>
+            "My name is ${map["name"]} ${map["surname"]}");
     expect(label.value, "My name is Bob Fox");
 
     ngMap["surname"] = "Chicken";
@@ -152,8 +160,8 @@ void main() {
 
   test('NGSet + NGDependentValue', () async {
     final ngSet = NGSet({1, 2});
-    final label = NGDependentValue(
-        ngSet, (Set<int> set) => "Sum: ${set.fold(0, (prev, elem) => prev + elem)}");
+    final label = NGDependentValue(ngSet,
+        (Set<int> set) => "Sum: ${set.fold(0, (prev, elem) => prev + elem)}");
     expect(label.value, "Sum: 3");
 
     ngSet.add(3);
