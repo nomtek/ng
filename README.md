@@ -1,4 +1,4 @@
-![](https://github.com/nomtek/ng/workflows/unit%20test/badge.svg)
+![](https://github.com/nomtek/ng/workflows/Dart%20CI/badge.svg)
 
 # NG
 
