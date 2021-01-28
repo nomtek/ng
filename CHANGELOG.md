@@ -1,3 +1,7 @@
+## [1.0.1]
+
+* changed badge name
+
 ## [1.0.0]
 
 * improved example

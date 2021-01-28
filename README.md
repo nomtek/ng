@@ -1,4 +1,4 @@
-![](https://github.com/nomtek/ng/workflows/Flutter%20CI/badge.svg)
+![](https://github.com/nomtek/ng/workflows/tests/badge.svg)
 
 # NG
 
