@@ -1,5 +1,5 @@
 name: ng
-description: Micro framework for state management
+description: Micro-framework for the UI layer architecture. Opinionated, minimalistic, Dart/Flutter oriented and built from real problems and real projects.
 version: 0.0.3
 homepage: https://github.com/nomtek/ng
 

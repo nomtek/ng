@@ -25,8 +25,9 @@ class NG2<T1, T2> extends StatefulWidget {
   NG2(this.value1, this.value2, this.builder);
 
   @override
-  _NG2State createState() => _NG2State<T1, T2>(NGDependentValue2<_Tuple2<T1, T2>, T1, T2>(
-      value1, value2, (T1 v1, T2 v2) => _Tuple2(v1, v2)));
+  _NG2State createState() =>
+      _NG2State<T1, T2>(NGDependentValue2<_Tuple2<T1, T2>, T1, T2>(
+          value1, value2, (T1 v1, T2 v2) => _Tuple2(v1, v2)));
 }
 
 class _NG2State<T1, T2> extends State<NG2<T1, T2>> {
