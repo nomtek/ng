@@ -1,4 +1,4 @@
-name: Dart CI
+name: Flutter CI
 
 on:
   push:
@@ -11,12 +11,10 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    container:
-      image:  google/dart:latest
-
     steps:
     - uses: actions/checkout@v2
-    - name: Install dependencies
-      run: pub get
-    - name: Run tests
-      run: pub run test
+    - uses: subosito/flutter-action@v1
+      with:
+        flutter-version: '1.22.6'
+    - run: flutter pub get
+    - run: flutter test
