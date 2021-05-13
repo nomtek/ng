@@ -12,8 +12,7 @@ class NGValue<T> {
     _valueStreamController.sink.add(newValue);
   }
 
-  final StreamController<T> _valueStreamController =
-      StreamController<T>.broadcast();
+  final StreamController<T> _valueStreamController = StreamController<T>.broadcast();
 
   Stream<T> get stream => _valueStreamController.stream;
 
@@ -43,7 +42,7 @@ abstract class NGDependentValueBase<T> extends NGValue<T> {
   void dispose() {
     super.dispose();
 
-    _subscriptions?.forEach((subscription) {
+    _subscriptions.forEach((subscription) {
       subscription.cancel();
     });
   }
@@ -70,8 +69,7 @@ class NGDependentValue2<T, V1, V2> extends NGDependentValueBase<T> {
   NGDependencyMapper2<T, V1, V2> _mapper;
 
   NGDependentValue2(this._dependency1, this._dependency2, this._mapper)
-      : super(_mapper(_dependency1.value, _dependency2.value),
-            [_dependency1, _dependency2]);
+      : super(_mapper(_dependency1.value, _dependency2.value), [_dependency1, _dependency2]);
 
   @override
   void updateValue() => value = _mapper(_dependency1.value, _dependency2.value);
@@ -85,21 +83,17 @@ class NGDependentValue3<T, V1, V2, V3> extends NGDependentValueBase<T> {
   NGValue<V3> _dependency3;
   NGDependencyMapper3<T, V1, V2, V3> _mapper;
 
-  NGDependentValue3(
-      this._dependency1, this._dependency2, this._dependency3, this._mapper)
-      : super(
-            _mapper(_dependency1.value, _dependency2.value, _dependency3.value),
+  NGDependentValue3(this._dependency1, this._dependency2, this._dependency3, this._mapper)
+      : super(_mapper(_dependency1.value, _dependency2.value, _dependency3.value),
             [_dependency1, _dependency2, _dependency3]);
 
   @override
-  void updateValue() => value =
-      _mapper(_dependency1.value, _dependency2.value, _dependency3.value);
+  void updateValue() => value = _mapper(_dependency1.value, _dependency2.value, _dependency3.value);
 }
 
 // TOOD: add 4 & 5
 
-class NGDependentValue6<T, V1, V2, V3, V4, V5, V6>
-    extends NGDependentValueBase<T> {
+class NGDependentValue6<T, V1, V2, V3, V4, V5, V6> extends NGDependentValueBase<T> {
   NGValue<V1> _dependency1;
   NGValue<V2> _dependency2;
   NGValue<V3> _dependency3;
@@ -109,8 +103,8 @@ class NGDependentValue6<T, V1, V2, V3, V4, V5, V6>
 
   NGDependencyMapper6<T, V1, V2, V3, V4, V5, V6> _mapper;
 
-  NGDependentValue6(this._dependency1, this._dependency2, this._dependency3,
-      this._dependency4, this._dependency5, this._dependency6, this._mapper)
+  NGDependentValue6(this._dependency1, this._dependency2, this._dependency3, this._dependency4,
+      this._dependency5, this._dependency6, this._mapper)
       : super(
             _mapper(
               _dependency1.value,
@@ -120,14 +114,7 @@ class NGDependentValue6<T, V1, V2, V3, V4, V5, V6>
               _dependency5.value,
               _dependency6.value,
             ),
-            [
-              _dependency1,
-              _dependency2,
-              _dependency3,
-              _dependency4,
-              _dependency5,
-              _dependency6
-            ]);
+            [_dependency1, _dependency2, _dependency3, _dependency4, _dependency5, _dependency6]);
 
   @override
   void updateValue() => value = _mapper(
@@ -196,13 +183,13 @@ class NGList<T> extends NGValue<List<T>> implements List<T> {
   }
 
   @override
-  bool contains(Object element) => value.contains(element);
+  bool contains(Object? element) => value.contains(element);
 
   @override
   T elementAt(int index) => value.elementAt(index);
 
   @override
-  void fillRange(int start, int end, [T fillValue]) {
+  void fillRange(int start, int end, [T? fillValue]) {
     super.value.fillRange(start, end, fillValue);
     super._valueStreamController.sink.add(super.value);
   }
@@ -241,10 +228,10 @@ class NGList<T> extends NGValue<List<T>> implements List<T> {
   String join([String separator = ""]) => value.join(separator);
 
   @override
-  int lastIndexOf(T element, [int start]) => value.lastIndexOf(element, start);
+  int lastIndexOf(T element, [int? start]) => value.lastIndexOf(element, start);
 
   @override
-  bool remove(Object value) {
+  bool remove(Object? value) {
     final result = super.value.remove(value);
     if (result == true) super._valueStreamController.sink.add(super.value);
     return result;
@@ -252,14 +239,14 @@ class NGList<T> extends NGValue<List<T>> implements List<T> {
 
   @override
   T removeAt(int index) {
-    final result = super.value.removeAt(index);
+    final T result = super.value.removeAt(index);
     super._valueStreamController.sink.add(super.value);
     return result;
   }
 
   @override
   T removeLast() {
-    final result = super.value.removeLast();
+    final T result = super.value.removeLast();
     super._valueStreamController.sink.add(super.value);
     return result;
   }
@@ -292,7 +279,7 @@ class NGList<T> extends NGValue<List<T>> implements List<T> {
   }
 
   @override
-  void shuffle([Random random]) {
+  void shuffle([Random? random]) {
     super.value.shuffle(random);
     super._valueStreamController.sink.add(super.value);
   }
@@ -304,7 +291,7 @@ class NGList<T> extends NGValue<List<T>> implements List<T> {
   Iterable<T> skip(int count) => value.skip(count);
 
   @override
-  List<T> sublist(int start, [int end]) => value.sublist(start, end);
+  List<T> sublist(int start, [int? end]) => value.sublist(start, end);
 
   @override
   Iterable<T> take(int count) => value.take(count);
@@ -328,8 +315,7 @@ class NGList<T> extends NGValue<List<T>> implements List<T> {
   Iterable<V> expand<V>(Iterable<V> f(T element)) => value.expand(f);
 
   @override
-  T firstWhere(bool test(T element), {T orElse()}) =>
-      value.firstWhere(test, orElse: orElse);
+  T firstWhere(bool test(T element), {T orElse()?}) => value.firstWhere(test, orElse: orElse);
 
   @override
   set first(T value) {
@@ -355,11 +341,11 @@ class NGList<T> extends NGValue<List<T>> implements List<T> {
   }
 
   @override
-  int lastIndexWhere(bool Function(T element) test, [int start]) =>
+  int lastIndexWhere(bool Function(T element) test, [int? start]) =>
       super.value.lastIndexWhere(test, start);
 
   @override
-  T lastWhere(bool Function(T element) test, {T Function() orElse}) =>
+  T lastWhere(bool Function(T element) test, {T Function()? orElse}) =>
       super.value.lastWhere(test, orElse: orElse);
 
   @override
@@ -372,8 +358,7 @@ class NGList<T> extends NGValue<List<T>> implements List<T> {
   Iterable<V> map<V>(V Function(T e) f) => super.value.map(f);
 
   @override
-  T reduce(T Function(T value, T element) combine) =>
-      super.value.reduce(combine);
+  T reduce(T Function(T value, T element) combine) => super.value.reduce(combine);
 
   @override
   void removeWhere(bool Function(T element) test) {
@@ -388,22 +373,20 @@ class NGList<T> extends NGValue<List<T>> implements List<T> {
   }
 
   @override
-  T singleWhere(bool Function(T element) test, {T Function() orElse}) =>
+  T singleWhere(bool Function(T element) test, {T Function()? orElse}) =>
       super.value.singleWhere(test, orElse: orElse);
 
   @override
-  Iterable<T> skipWhile(bool Function(T value) test) =>
-      super.value.skipWhile(test);
+  Iterable<T> skipWhile(bool Function(T value) test) => super.value.skipWhile(test);
 
   @override
-  void sort([int Function(T a, T b) compare]) {
+  void sort([int Function(T a, T b)? compare]) {
     super.value.sort(compare);
     super._valueStreamController.sink.add(super.value);
   }
 
   @override
-  Iterable<T> takeWhile(bool Function(T value) test) =>
-      super.value.takeWhile(test);
+  Iterable<T> takeWhile(bool Function(T value) test) => super.value.takeWhile(test);
 
   @override
   Iterable<T> where(bool Function(T element) test) => super.value.where(test);
@@ -417,8 +400,8 @@ class NGMap<K, V> extends NGValue<Map<K, V>> implements Map<K, V> {
   NGMap(Map<K, V> value) : super(value);
 
   @override
-  V operator [](Object key) {
-    return value[key];
+  V? operator [](Object? key) {
+    return value[key as K];
   }
 
   @override
@@ -449,10 +432,10 @@ class NGMap<K, V> extends NGValue<Map<K, V>> implements Map<K, V> {
   }
 
   @override
-  bool containsKey(Object key) => value.containsKey(key);
+  bool containsKey(Object? key) => value.containsKey(key);
 
   @override
-  bool containsValue(Object value) => super.value.containsValue(value);
+  bool containsValue(Object? value) => super.value.containsValue(value);
 
   @override
   Iterable<MapEntry<K, V>> get entries => super.value.entries;
@@ -473,19 +456,18 @@ class NGMap<K, V> extends NGValue<Map<K, V>> implements Map<K, V> {
   int get length => super.value.length;
 
   @override
-  Map<K2, V2> map<K2, V2>(MapEntry<K2, V2> Function(K key, V value) f) =>
-      super.value.map(f);
+  Map<K2, V2> map<K2, V2>(MapEntry<K2, V2> Function(K key, V value) f) => super.value.map(f);
 
   @override
   V putIfAbsent(K key, V Function() ifAbsent) {
     final contains = containsKey(key);
-    final result = super.value.putIfAbsent(key, ifAbsent);
+    final V result = super.value.putIfAbsent(key, ifAbsent);
     if (!contains) super._valueStreamController.sink.add(super.value);
     return result;
   }
 
   @override
-  V remove(Object key) {
+  V? remove(Object? key) {
     final result = super.value.remove(value);
     if (result != null) super._valueStreamController.sink.add(super.value);
     return result;
@@ -495,13 +477,12 @@ class NGMap<K, V> extends NGValue<Map<K, V>> implements Map<K, V> {
   void removeWhere(bool Function(K key, V value) predicate) {
     final oldLength = super.value.length;
     super.value.removeWhere(predicate);
-    if (oldLength != super.value.length)
-      super._valueStreamController.sink.add(super.value);
+    if (oldLength != super.value.length) super._valueStreamController.sink.add(super.value);
   }
 
   @override
-  V update(K key, V Function(V value) update, {V Function() ifAbsent}) {
-    final result = super.value.update(key, update, ifAbsent: ifAbsent);
+  V update(K key, V Function(V value) update, {V Function()? ifAbsent}) {
+    final V result = super.value.update(key, update, ifAbsent: ifAbsent);
     super._valueStreamController.sink.add(super.value);
     return result;
   }
@@ -520,24 +501,24 @@ class NGMap<K, V> extends NGValue<Map<K, V>> implements Map<K, V> {
 ///
 ///
 
-class NGSet<E> extends NGValue<Set<E>> implements Set<E> {
+class NGSet<E> extends NGValue<Set<E?>> implements Set<E?> {
   NGSet(Set<E> value) : super(value);
 
   @override
-  bool add(E value) {
+  bool add(E? value) {
     final result = super.value.add(value);
     if (result == true) super._valueStreamController.sink.add(super.value);
     return result;
   }
 
   @override
-  void addAll(Iterable<E> iterable) {
+  void addAll(Iterable<E?> iterable) {
     super.value.addAll(iterable);
     super._valueStreamController.sink.add(super.value);
   }
 
   @override
-  bool any(bool test(E element)) => super.value.any(test);
+  bool any(bool test(E? element)) => super.value.any(test);
 
   @override
   Set<R> cast<R>() => value.cast();
@@ -549,42 +530,42 @@ class NGSet<E> extends NGValue<Set<E>> implements Set<E> {
   }
 
   @override
-  bool contains(Object element) => super.value.contains(element);
+  bool contains(Object? element) => super.value.contains(element);
 
   @override
-  bool containsAll(Iterable<Object> other) => super.value.containsAll(other);
+  bool containsAll(Iterable<Object?> other) => super.value.containsAll(other);
 
   @override
-  Set<E> difference(Set<Object> other) => super.value.difference(other);
+  Set<E?> difference(Set<Object?> other) => super.value.difference(other);
 
   @override
-  E elementAt(int index) => value.elementAt(index);
+  E? elementAt(int index) => value.elementAt(index);
 
   @override
-  bool every(bool test(E element)) => super.value.every(test);
+  bool every(bool test(E? element)) => super.value.every(test);
 
   @override
-  Iterable<T> expand<T>(Iterable<T> f(E element)) => super.value.expand(f);
+  Iterable<T> expand<T>(Iterable<T> f(E? element)) => super.value.expand(f);
 
   @override
-  E get first => super.value.first;
+  E? get first => super.value.first;
 
   @override
-  E firstWhere(bool test(E element), {E orElse()}) =>
+  E? firstWhere(bool test(E? element), {E? orElse()?}) =>
       super.value.firstWhere(test, orElse: orElse);
 
   @override
-  T fold<T>(T initialValue, T Function(T previousValue, E element) combine) =>
+  T fold<T>(T initialValue, T Function(T previousValue, E? element) combine) =>
       super.value.fold(initialValue, combine);
 
   @override
-  Iterable<E> followedBy(Iterable<E> other) => super.value.followedBy(other);
+  Iterable<E?> followedBy(Iterable<E?> other) => super.value.followedBy(other);
 
   @override
-  void forEach(void Function(E element) f) => super.value.forEach(f);
+  void forEach(void Function(E? element) f) => super.value.forEach(f);
 
   @override
-  Set<E> intersection(Set<Object> other) => super.value.intersection(other);
+  Set<E?> intersection(Set<Object?> other) => super.value.intersection(other);
 
   @override
   bool get isEmpty => super.value.isEmpty;
@@ -593,94 +574,91 @@ class NGSet<E> extends NGValue<Set<E>> implements Set<E> {
   bool get isNotEmpty => super.value.isNotEmpty;
 
   @override
-  Iterator<E> get iterator => super.value.iterator;
+  Iterator<E?> get iterator => super.value.iterator;
 
   @override
   String join([String separator = ""]) => super.value.join(separator);
 
   @override
-  E get last => super.value.last;
+  E? get last => super.value.last;
 
   @override
-  E lastWhere(bool Function(E element) test, {E Function() orElse}) =>
+  E? lastWhere(bool Function(E? element) test, {E? Function()? orElse}) =>
       super.value.lastWhere(test, orElse: orElse);
 
   @override
   int get length => super.value.length;
 
   @override
-  E lookup(Object object) => super.value.lookup(object);
+  E? lookup(Object? object) => super.value.lookup(object);
 
   @override
-  Iterable<T> map<T>(T Function(E e) f) => super.value.map(f);
+  Iterable<T> map<T>(T Function(E? e) f) => super.value.map(f);
 
   @override
-  E reduce(Function(E value, E element) combine) => super.value.reduce(combine);
+  E? reduce(E? Function(E? value, E? element) combine) => super.value.reduce(combine);
 
   @override
-  bool remove(Object value) {
+  bool remove(Object? value) {
     final result = super.value.remove(value);
     if (result == true) super._valueStreamController.sink.add(super.value);
     return result;
   }
 
   @override
-  void removeAll(Iterable<Object> elements) {
+  void removeAll(Iterable<Object?> elements) {
     super.value.removeAll(value);
     super._valueStreamController.sink.add(super.value);
   }
 
   @override
-  void removeWhere(bool Function(E element) test) {
+  void removeWhere(bool Function(E? element) test) {
     super.value.removeWhere(test);
     super._valueStreamController.sink.add(super.value);
   }
 
   @override
-  void retainAll(Iterable<Object> elements) {
+  void retainAll(Iterable<Object?> elements) {
     super.value.retainAll(elements);
     super._valueStreamController.sink.add(super.value);
   }
 
   @override
-  void retainWhere(bool Function(E element) test) {
+  void retainWhere(bool Function(E? element) test) {
     super.value.retainWhere(test);
     super._valueStreamController.sink.add(super.value);
   }
 
   @override
-  E get single => super.value.single;
+  E? get single => super.value.single;
 
   @override
-  E singleWhere(bool Function(E element) test, {Function() orElse}) =>
+  E singleWhere(bool Function(E element) test, {Function()? orElse}) =>
       singleWhere(test, orElse: orElse);
 
   @override
-  Iterable<E> skip(int count) => super.value.skip(count);
+  Iterable<E?> skip(int count) => super.value.skip(count);
 
   @override
-  Iterable<E> skipWhile(bool Function(E value) test) =>
-      super.value.skipWhile(test);
+  Iterable<E?> skipWhile(bool Function(E? value) test) => super.value.skipWhile(test);
 
   @override
-  Iterable<E> take(int count) => super.value.take(count);
+  Iterable<E?> take(int count) => super.value.take(count);
 
   @override
-  Iterable<E> takeWhile(bool Function(E value) test) =>
-      super.value.takeWhile(test);
+  Iterable<E?> takeWhile(bool Function(E? value) test) => super.value.takeWhile(test);
 
   @override
-  List<E> toList({bool growable = true}) =>
-      super.value.toList(growable: growable);
+  List<E?> toList({bool growable = true}) => super.value.toList(growable: growable);
 
   @override
-  Set<E> toSet() => super.value.toSet();
+  Set<E?> toSet() => super.value.toSet();
 
   @override
-  Set<E> union(Set other) => super.value.union(other);
+  Set<E?> union(Set<E?> other) => super.value.union(other);
 
   @override
-  Iterable<E> where(bool Function(E element) test) => super.value.where(test);
+  Iterable<E?> where(bool Function(E? element) test) => super.value.where(test);
 
   @override
   Iterable<T> whereType<T>() => super.value.whereType<T>();

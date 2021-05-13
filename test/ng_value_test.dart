@@ -5,7 +5,7 @@ import 'package:ng/ng.dart';
 void main() {
   test('listen for one value', () async {
     final index = NGValue(4);
-    final label = NGDependentValue(index, (index) => "Current Index: $index");
+    final label = NGDependentValue(index, (dynamic index) => "Current Index: $index");
     expect(label.value, "Current Index: 4");
     index.value = 3;
 
@@ -18,7 +18,7 @@ void main() {
     final index = NGValue(4);
     final index2 = NGValue(100);
     final label = NGDependentValue2(index, index2,
-        (index, index2) => "Current Index: $index but second $index2");
+        (dynamic index, dynamic index2) => "Current Index: $index but second $index2");
 
     expect(label.value, "Current Index: 4 but second 100");
     index.value = 3;
@@ -42,7 +42,7 @@ void main() {
         index,
         index2,
         name,
-        (index, index2, name) =>
+        (dynamic index, dynamic index2, dynamic name) =>
             "Name: $name Current Index: $index but second $index2");
 
     expect(label.value, "Name: Peter Current Index: 4 but second 100");
@@ -78,7 +78,7 @@ void main() {
     final label = NGDependentValue(
         ngList,
         (List<int> list) =>
-            "Sum: ${list.fold(0, (prev, elem) => prev + elem)}");
+            "Sum: ${list.fold(0, (dynamic prev, elem) => prev + elem)}");
     expect(label.value, "Sum: 3");
 
     ngList.add(3);
@@ -151,7 +151,7 @@ void main() {
     expect(ngSet.length, 2);
     expect(ngSet.last, 2);
 
-    ngSet.removeWhere((e) => e % 2 == 0);
+    ngSet.removeWhere((e) => e! % 2 == 0);
     await Future.delayed(Duration.zero);
 
     expect(ngSet.length, 1);
@@ -161,7 +161,7 @@ void main() {
   test('NGSet + NGDependentValue', () async {
     final ngSet = NGSet({1, 2});
     final label = NGDependentValue(ngSet,
-        (Set<int> set) => "Sum: ${set.fold(0, (prev, elem) => prev + elem)}");
+        (Set<int?> set) => "Sum: ${set.fold(0, (dynamic prev, elem) => prev + elem)}");
     expect(label.value, "Sum: 3");
 
     ngSet.add(3);
@@ -174,7 +174,7 @@ void main() {
 
     expect(label.value, "Sum: 6");
 
-    ngSet.removeWhere((e) => e % 2 == 0);
+    ngSet.removeWhere((e) => e! % 2 == 0);
     await Future.delayed(Duration.zero);
 
     expect(label.value, "Sum: 4");

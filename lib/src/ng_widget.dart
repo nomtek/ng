@@ -4,15 +4,17 @@ import 'package:ng/src/ng_value.dart';
 class NG<T> extends StatelessWidget {
   final NGValue<T> ngValue;
   final Widget Function(T value) builder;
+  final Widget noDataWidget;
 
-  const NG(this.ngValue, this.builder, {Key key}) : super(key: key);
+  const NG(this.ngValue, this.builder, {Key? key, this.noDataWidget = const SizedBox()})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<T>(
       initialData: ngValue.value,
       stream: ngValue.stream,
-      builder: (context, snapshot) => builder(snapshot.data),
+      builder: (context, snapshot) => snapshot.hasData ? builder(snapshot.data!) : noDataWidget,
     );
   }
 }
@@ -25,9 +27,8 @@ class NG2<T1, T2> extends StatefulWidget {
   NG2(this.value1, this.value2, this.builder);
 
   @override
-  _NG2State createState() =>
-      _NG2State<T1, T2>(NGDependentValue2<_Tuple2<T1, T2>, T1, T2>(
-          value1, value2, (T1 v1, T2 v2) => _Tuple2(v1, v2)));
+  _NG2State createState() => _NG2State<T1, T2>(NGDependentValue2<_Tuple2<T1, T2>, T1, T2>(
+      value1, value2, (T1 v1, T2 v2) => _Tuple2(v1, v2)));
 }
 
 class _NG2State<T1, T2> extends State<NG2<T1, T2>> {
