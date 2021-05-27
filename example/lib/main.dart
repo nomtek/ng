@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
 }
 
 class CounterScreen extends NGView<CounterController> {
-  CounterScreen({Key key, CounterController controller})
+  CounterScreen({Key? key, required CounterController controller})
       : super(controller: controller, key: key);
 
   @override
@@ -43,7 +43,10 @@ class CounterScreen extends NGView<CounterController> {
       floatingActionButton: FloatingActionButton(
         onPressed: controller.increment,
         tooltip: 'Increment',
-        child: Icon(Icons.add),
+        child: Text(
+          '+',
+          style: Theme.of(context).textTheme.headline4!.merge(TextStyle(color: Colors.white)),
+        ),
       ),
     );
   }
