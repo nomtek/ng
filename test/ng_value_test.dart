@@ -76,9 +76,7 @@ void main() {
   test('NGList + NGDependentValue', () async {
     final ngList = NGList([1, 2]);
     final label = NGDependentValue(
-        ngList,
-        (List<int> list) =>
-            "Sum: ${list.fold(0, (dynamic prev, elem) => prev + elem)}");
+        ngList, (List<int> list) => "Sum: ${list.fold(0, (dynamic prev, elem) => prev + elem)}");
     expect(label.value, "Sum: 3");
 
     ngList.add(3);
@@ -124,9 +122,7 @@ void main() {
   test('NGMap + NGDependentValue', () async {
     final ngMap = NGMap({"name": "Bob", "surname": "Fox"});
     final label = NGDependentValue(
-        ngMap,
-        (Map<String, String> map) =>
-            "My name is ${map["name"]} ${map["surname"]}");
+        ngMap, (Map<String, String> map) => "My name is ${map["name"]} ${map["surname"]}");
     expect(label.value, "My name is Bob Fox");
 
     ngMap["surname"] = "Chicken";
@@ -151,7 +147,7 @@ void main() {
     expect(ngSet.length, 2);
     expect(ngSet.last, 2);
 
-    ngSet.removeWhere((e) => e! % 2 == 0);
+    ngSet.removeWhere((e) => e % 2 == 0);
     await Future.delayed(Duration.zero);
 
     expect(ngSet.length, 1);
@@ -160,8 +156,8 @@ void main() {
 
   test('NGSet + NGDependentValue', () async {
     final ngSet = NGSet({1, 2});
-    final label = NGDependentValue(ngSet,
-        (Set<int?> set) => "Sum: ${set.fold(0, (dynamic prev, elem) => prev + elem)}");
+    final label = NGDependentValue(
+        ngSet, (Set<int> set) => "Sum: ${set.fold(0, (dynamic prev, elem) => prev + elem)}");
     expect(label.value, "Sum: 3");
 
     ngSet.add(3);
@@ -174,7 +170,7 @@ void main() {
 
     expect(label.value, "Sum: 6");
 
-    ngSet.removeWhere((e) => e! % 2 == 0);
+    ngSet.removeWhere((e) => e % 2 == 0);
     await Future.delayed(Duration.zero);
 
     expect(label.value, "Sum: 4");
