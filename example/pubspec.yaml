@@ -17,3 +17,6 @@ dev_dependencies:
   
   ng:
     path: ../
+
+flutter:
+  uses-material-design: true

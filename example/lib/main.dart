@@ -43,10 +43,7 @@ class CounterScreen extends NGView<CounterController> {
       floatingActionButton: FloatingActionButton(
         onPressed: controller.increment,
         tooltip: 'Increment',
-        child: Text(
-          '+',
-          style: Theme.of(context).textTheme.headline4!.merge(TextStyle(color: Colors.white)),
-        ),
+        child: Icon(Icons.add),
       ),
     );
   }
