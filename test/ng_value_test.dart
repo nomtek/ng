@@ -145,13 +145,32 @@ void main() {
     await Future.delayed(Duration.zero);
 
     expect(ngSet.length, 2);
-    expect(ngSet.last, 2);
+    expect(ngSet.contains(2), true);
 
     ngSet.removeWhere((e) => e % 2 == 0);
     await Future.delayed(Duration.zero);
 
     expect(ngSet.length, 1);
     expect(ngSet.first, 1);
+  });
+
+  test('NGSet basic nullable', () async {
+    final ngSet = NGSet<int?>({1});
+
+    expect(ngSet.first, 1);
+
+    ngSet.add(null);
+    await Future.delayed(Duration.zero);
+
+    expect(ngSet.length, 2);
+    expect(ngSet.contains(null), true);
+
+    ngSet.removeWhere((e) => e == 1);
+    await Future.delayed(Duration.zero);
+
+    expect(ngSet.length, 1);
+    expect(ngSet.contains(1), false);
+    expect(ngSet.contains(null), true);
   });
 
   test('NGSet + NGDependentValue', () async {
