@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 class NGViewController {
-  BuildContext context;
+  late BuildContext context;
 
   void onReady() async {}
 

@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
 }
 
 class CounterScreen extends NGView<CounterController> {
-  CounterScreen({Key key, CounterController controller})
+  CounterScreen({Key? key, required CounterController controller})
       : super(controller: controller, key: key);
 
   @override

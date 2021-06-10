@@ -5,7 +5,7 @@ import 'package:ng/ng.dart';
 void main() {
   test('listen for one value', () async {
     final index = NGValue(4);
-    final label = NGDependentValue(index, (index) => "Current Index: $index");
+    final label = NGDependentValue(index, (dynamic index) => "Current Index: $index");
     expect(label.value, "Current Index: 4");
     index.value = 3;
 
@@ -18,7 +18,7 @@ void main() {
     final index = NGValue(4);
     final index2 = NGValue(100);
     final label = NGDependentValue2(index, index2,
-        (index, index2) => "Current Index: $index but second $index2");
+        (dynamic index, dynamic index2) => "Current Index: $index but second $index2");
 
     expect(label.value, "Current Index: 4 but second 100");
     index.value = 3;
@@ -42,7 +42,7 @@ void main() {
         index,
         index2,
         name,
-        (index, index2, name) =>
+        (dynamic index, dynamic index2, dynamic name) =>
             "Name: $name Current Index: $index but second $index2");
 
     expect(label.value, "Name: Peter Current Index: 4 but second 100");
@@ -76,9 +76,7 @@ void main() {
   test('NGList + NGDependentValue', () async {
     final ngList = NGList([1, 2]);
     final label = NGDependentValue(
-        ngList,
-        (List<int> list) =>
-            "Sum: ${list.fold(0, (prev, elem) => prev + elem)}");
+        ngList, (List<int> list) => "Sum: ${list.fold(0, (dynamic prev, elem) => prev + elem)}");
     expect(label.value, "Sum: 3");
 
     ngList.add(3);
@@ -124,9 +122,7 @@ void main() {
   test('NGMap + NGDependentValue', () async {
     final ngMap = NGMap({"name": "Bob", "surname": "Fox"});
     final label = NGDependentValue(
-        ngMap,
-        (Map<String, String> map) =>
-            "My name is ${map["name"]} ${map["surname"]}");
+        ngMap, (Map<String, String> map) => "My name is ${map["name"]} ${map["surname"]}");
     expect(label.value, "My name is Bob Fox");
 
     ngMap["surname"] = "Chicken";
@@ -149,7 +145,7 @@ void main() {
     await Future.delayed(Duration.zero);
 
     expect(ngSet.length, 2);
-    expect(ngSet.last, 2);
+    expect(ngSet.contains(2), true);
 
     ngSet.removeWhere((e) => e % 2 == 0);
     await Future.delayed(Duration.zero);
@@ -158,10 +154,29 @@ void main() {
     expect(ngSet.first, 1);
   });
 
+  test('NGSet basic nullable', () async {
+    final ngSet = NGSet<int?>({1});
+
+    expect(ngSet.first, 1);
+
+    ngSet.add(null);
+    await Future.delayed(Duration.zero);
+
+    expect(ngSet.length, 2);
+    expect(ngSet.contains(null), true);
+
+    ngSet.removeWhere((e) => e == 1);
+    await Future.delayed(Duration.zero);
+
+    expect(ngSet.length, 1);
+    expect(ngSet.contains(1), false);
+    expect(ngSet.contains(null), true);
+  });
+
   test('NGSet + NGDependentValue', () async {
     final ngSet = NGSet({1, 2});
-    final label = NGDependentValue(ngSet,
-        (Set<int> set) => "Sum: ${set.fold(0, (prev, elem) => prev + elem)}");
+    final label = NGDependentValue(
+        ngSet, (Set<int> set) => "Sum: ${set.fold(0, (dynamic prev, elem) => prev + elem)}");
     expect(label.value, "Sum: 3");
 
     ngSet.add(3);

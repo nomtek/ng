@@ -1,3 +1,7 @@
+## [2.0.0]
+
+* nullability migration
+
 ## [1.0.1]
 
 * changed badge name
